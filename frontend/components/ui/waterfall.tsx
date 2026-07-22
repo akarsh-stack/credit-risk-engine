@@ -54,7 +54,7 @@ export function WaterfallChart({ features }: WaterfallProps) {
             contentStyle={{ backgroundColor: '#131312', borderColor: '#1F1F1D', borderRadius: 0 }}
             itemStyle={{ fontFamily: 'JetBrains Mono', fontSize: 12 }}
             labelStyle={{ color: '#d7c4ac', fontFamily: 'JetBrains Mono', fontSize: 10 }}
-            formatter={(value: number, name: string, props: any) => [
+            formatter={(value: any, name: any, props: any) => [
               value > 0 ? `+${value.toFixed(4)}` : value.toFixed(4), 
               'SHAP IMPACT'
             ]}
@@ -69,3 +69,6 @@ export function WaterfallChart({ features }: WaterfallProps) {
     </div>
   );
 }
+
+
+

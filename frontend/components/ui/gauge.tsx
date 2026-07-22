@@ -70,3 +70,6 @@ export function ProbabilityGauge({ probability, grade }: GaugeProps) {
     </div>
   );
 }
+
+
+

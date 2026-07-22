@@ -455,8 +455,8 @@ export default function Dashboard() {
                           contentStyle={{ backgroundColor: '#131312', border: '1px solid #1F1F1D', borderRadius: 0 }}
                           itemStyle={{ color: '#47f5db', fontFamily: 'JetBrains Mono', fontSize: 12 }}
                           labelStyle={{ color: '#d7c4ac', fontFamily: 'JetBrains Mono', fontSize: 10 }}
-                          formatter={(val: number) => [val, 'FREQ']}
-                          labelFormatter={(val: number) => `LOSS: $${val.toFixed(2)}M`}
+                          formatter={(val: any) => [val, 'FREQ']}
+                          labelFormatter={(val: any) => `LOSS: $${val.toFixed(2)}M`}
                           cursor={{ fill: '#1c1c1a' }}
                         />
                         <Bar dataKey="freq" fill="#47f5db" opacity={0.8} />
@@ -876,7 +876,7 @@ export default function Dashboard() {
                             />
                             <Tooltip
                               contentStyle={{ backgroundColor: '#131312', border: '1px solid #1F1F1D' }}
-                              formatter={(val: number, name: string) => [`$${val.toFixed(2)}M`, name.toUpperCase()]}
+                              formatter={(val: any, name: any) => [`$${val.toFixed(2)}M`, name.toUpperCase()]}
                             />
                             <Bar dataKey="baseline" fill="#47f5db" opacity={0.6} name="Baseline Loss" />
                             <Bar dataKey="stressed" fill="#ef4444" opacity={0.7} name="Stressed Loss" />
@@ -990,3 +990,8 @@ export default function Dashboard() {
     </div>
   );
 }
+
+
+
+
+
