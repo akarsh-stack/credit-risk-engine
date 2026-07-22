@@ -117,7 +117,7 @@ def plot_global_bar(shap_values: np.ndarray, feature_names: list[str], short_nam
     path = PLOTS_DIR / "shap_global_bar.png"
     plt.savefig(path, dpi=150, bbox_inches="tight", facecolor=fig.get_facecolor())
     plt.close()
-    print(f"  Saved → {path}")
+    print(f"  Saved -> {path}")
     return top_names, top_vals
 
 
@@ -144,7 +144,7 @@ def plot_beeswarm(shap_values: np.ndarray, X_sample: np.ndarray,
     path = PLOTS_DIR / "shap_beeswarm.png"
     plt.savefig(path, dpi=150, bbox_inches="tight", facecolor="#0f172a")
     plt.close()
-    print(f"  Saved → {path}")
+    print(f"  Saved -> {path}")
 
 
 def plot_waterfall(explainer, X_proc: np.ndarray, y_prob: np.ndarray,
@@ -189,7 +189,7 @@ def plot_waterfall(explainer, X_proc: np.ndarray, y_prob: np.ndarray,
         path = PLOTS_DIR / f"shap_waterfall_{case_name}.png"
         plt.savefig(path, dpi=150, bbox_inches="tight", facecolor=fig.get_facecolor())
         plt.close()
-        print(f"  Saved → {path}")
+        print(f"  Saved -> {path}")
 
 
 def plot_pdp(pipe, feature_names_raw: list[str], X_test_raw: pd.DataFrame):
@@ -231,7 +231,7 @@ def plot_pdp(pipe, feature_names_raw: list[str], X_test_raw: pd.DataFrame):
         path = PLOTS_DIR / f"pdp_{label}.png"
         plt.savefig(path, dpi=150, bbox_inches="tight", facecolor="#0f172a")
         plt.close()
-        print(f"  Saved → {path}")
+        print(f"  Saved -> {path}")
 
 
 def write_shap_findings(top_names: list, top_vals: np.ndarray):
@@ -271,10 +271,10 @@ borrowers get higher rates in the synthetic data generation). In a real pipeline
 must be taken not to leak future information through the rate if it's set post-underwriting.
 
 ### 5. Directionality Matches Domain Intuition
-- **FICO ↑ → default probability ↓**: Higher FICO = lower risk (correct)
-- **DTI ↑ → default probability ↑**: Higher DTI = higher risk (correct)
-- **Revolving utilization ↑ → default probability ↑**: Maxing cards = higher risk (correct)
-- **Delinquencies ↑ → default probability ↑**: Past late payments predict future ones (correct)
+- **FICO ↑ -> default probability ↓**: Higher FICO = lower risk (correct)
+- **DTI ↑ -> default probability ↑**: Higher DTI = higher risk (correct)
+- **Revolving utilization ↑ -> default probability ↑**: Maxing cards = higher risk (correct)
+- **Delinquencies ↑ -> default probability ↑**: Past late payments predict future ones (correct)
 
 This directional consistency is a strong sanity check that the model has learned genuine
 credit risk signals rather than spurious correlations.
@@ -286,7 +286,7 @@ outputs trustworthy for downstream risk decisions like setting loan limits or pr
 """
     path = NOTEBOOKS_DIR / "shap_findings.md"
     path.write_text(findings, encoding="utf-8")
-    print(f"  Saved findings → {path}")
+    print(f"  Saved findings -> {path}")
 
 
 def main():
@@ -317,7 +317,7 @@ def main():
     print("\n  Writing SHAP findings...")
     write_shap_findings(top_names, top_vals)
 
-    print("\n✓ Explainability analysis complete")
+    print("\n[OK] Explainability analysis complete")
 
 
 if __name__ == "__main__":

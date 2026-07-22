@@ -78,7 +78,7 @@ def train_logistic_regression(X_train, y_train, X_val, y_val) -> Pipeline:
 
     path = MODELS_DIR / "lr_model.joblib"
     joblib.dump(pipe, path)
-    print(f"  Saved → {path}")
+    print(f"  Saved -> {path}")
     return pipe
 
 
@@ -102,7 +102,7 @@ def train_random_forest(X_train, y_train, X_val, y_val) -> Pipeline:
 
     path = MODELS_DIR / "rf_model.joblib"
     joblib.dump(pipe, path)
-    print(f"  Saved → {path}")
+    print(f"  Saved -> {path}")
     return pipe
 
 
@@ -194,12 +194,12 @@ def train_xgboost(X_train, y_train, X_val, y_val) -> Pipeline:
     # Save full pipeline
     path = MODELS_DIR / "xgb_pipeline.joblib"
     joblib.dump(pipe, path)
-    print(f"  Saved pipeline → {path}")
+    print(f"  Saved pipeline -> {path}")
 
     # Also save the raw XGBoost booster for SHAP
     xgb_path = MODELS_DIR / "xgb_model.joblib"
     joblib.dump(pipe["classifier"], xgb_path)
-    print(f"  Saved classifier → {xgb_path}")
+    print(f"  Saved classifier -> {xgb_path}")
 
     return pipe
 
@@ -216,7 +216,7 @@ def main():
     xgb_pipe = train_xgboost(X_train, y_train, X_val, y_val)
 
     print("\n" + "=" * 60)
-    print("✓ All models trained and saved to models/")
+    print("[OK] All models trained and saved to models/")
     print("  Run src/evaluate.py for full metrics report")
     print("=" * 60)
 

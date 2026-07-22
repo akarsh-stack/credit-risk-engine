@@ -40,7 +40,7 @@ def generate_credit_data(n: int = N_ROWS, seed: int = RNG_SEED) -> pd.DataFrame:
     fico_raw = 575 + 90 * creditworthiness + rng.normal(0, 35, n)
     fico_score = np.clip(np.round(fico_raw).astype(int), 300, 850)
 
-    # Annual income ($): log-normal base; higher creditworthiness → higher income
+    # Annual income ($): log-normal base; higher creditworthiness -> higher income
     income_log_mean = 11.0 + 0.35 * creditworthiness  # exp(11) ≈ $60k
     annual_income = np.round(np.exp(rng.normal(income_log_mean, 0.45, n)), -2)
     annual_income = np.clip(annual_income, 12_000, 500_000)
@@ -60,7 +60,7 @@ def generate_credit_data(n: int = N_ROWS, seed: int = RNG_SEED) -> pd.DataFrame:
     # Loan term: 36 or 60 months
     loan_term = rng.choice([36, 60], size=n, p=[0.65, 0.35])
 
-    # Interest rate: driven by creditworthiness (riskier → higher rate)
+    # Interest rate: driven by creditworthiness (riskier -> higher rate)
     rate_raw = 13 - 3.5 * creditworthiness + 1.5 * (loan_term == 60).astype(float) + rng.normal(0, 2, n)
     interest_rate = np.round(np.clip(rate_raw, 5.0, 30.0), 2)
 
@@ -85,7 +85,7 @@ def generate_credit_data(n: int = N_ROWS, seed: int = RNG_SEED) -> pd.DataFrame:
     num_derogatory_marks = rng.binomial(n=3, p=derog_prob)
 
     # Home ownership (categorical)
-    # More creditworthy → more likely to own; less → rent
+    # More creditworthy -> more likely to own; less -> rent
     p_own = np.clip(0.20 + 0.10 * creditworthiness, 0.05, 0.45)
     p_mortgage = np.clip(0.45 + 0.05 * creditworthiness, 0.25, 0.65)
     p_rent = np.clip(1 - p_own - p_mortgage, 0.05, 0.60)
@@ -107,7 +107,7 @@ def generate_credit_data(n: int = N_ROWS, seed: int = RNG_SEED) -> pd.DataFrame:
 
     # Verification status
     verif_statuses = ["Verified", "Source Verified", "Not Verified"]
-    # Less creditworthy → less likely to be verified
+    # Less creditworthy -> less likely to be verified
     p_verified = np.clip(0.40 + 0.15 * creditworthiness, 0.15, 0.70)
     p_source = np.clip(0.30 - 0.05 * creditworthiness, 0.10, 0.45)
     p_not = np.clip(1 - p_verified - p_source, 0.05, 0.50)
@@ -120,7 +120,7 @@ def generate_credit_data(n: int = N_ROWS, seed: int = RNG_SEED) -> pd.DataFrame:
     ])
 
     # ── 3. Derive loan_grade from a formula combining FICO, DTI, income
-    #        Grade A (best) → G (worst)
+    #        Grade A (best) -> G (worst)
     grade_score = (
         (fico_score - 300) / 550 * 0.50  # normalized fico, weight 50%
         - dti_ratio / 50 * 0.25           # lower DTI is better, weight 25%

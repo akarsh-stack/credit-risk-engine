@@ -4,8 +4,8 @@ api/main.py
 FastAPI application for the Credit Risk Prediction Engine.
 
 Endpoints:
-  POST /predict          — Single loan → default probability, risk grade, top-5 SHAP features
-  POST /portfolio-var    — Portfolio → VaR95, VaR99, ES95, loss distribution
+  POST /predict          — Single loan -> default probability, risk grade, top-5 SHAP features
+  POST /portfolio-var    — Portfolio -> VaR95, VaR99, ES95, loss distribution
   GET  /health           — Health check
 
 Models loaded once at startup via lifespan event.
@@ -38,7 +38,7 @@ _store: dict = {}
 
 
 def loan_features_to_df(loan: LoanFeatures) -> pd.DataFrame:
-    """Convert Pydantic LoanFeatures → single-row DataFrame matching training schema."""
+    """Convert Pydantic LoanFeatures -> single-row DataFrame matching training schema."""
     return pd.DataFrame([{
         "fico_score": loan.fico_score,
         "annual_income": loan.annual_income,
@@ -109,7 +109,7 @@ async def lifespan(app: FastAPI):
     _store["feature_names"] = feature_names
     _store["var_results"] = var_results
 
-    print("✓ Models loaded successfully")
+    print("[OK] Models loaded successfully")
     yield
     print("Shutting down...")
 

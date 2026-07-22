@@ -11,9 +11,9 @@ Metrics computed:
   - Gini coefficient (= 2 * AUC - 1)
 
 Outputs:
-  - ROC curve comparison plot  → models/plots/roc_curves.png
-  - Calibration curve plot     → models/plots/calibration_curve.png
-  - Markdown comparison table  → models/evaluation_report.md
+  - ROC curve comparison plot  -> models/plots/roc_curves.png
+  - Calibration curve plot     -> models/plots/calibration_curve.png
+  - Markdown comparison table  -> models/evaluation_report.md
 
 Usage:
     python src/evaluate.py
@@ -46,7 +46,7 @@ MODELS_DIR = ROOT / "models"
 PLOTS_DIR = MODELS_DIR / "plots"
 PLOTS_DIR.mkdir(parents=True, exist_ok=True)
 
-THRESHOLD = 0.35  # Credit risk: recall matters more → lower threshold
+THRESHOLD = 0.35  # Credit risk: recall matters more -> lower threshold
 
 
 # ── KS Statistic ────────────────────────────────────────────────────────────────
@@ -106,7 +106,7 @@ def plot_roc_curves(models_probs: dict, y_test: np.ndarray):
     plt.tight_layout()
     plt.savefig(path, dpi=150, bbox_inches="tight", facecolor=fig.get_facecolor())
     plt.close()
-    print(f"  Saved ROC plot → {path}")
+    print(f"  Saved ROC plot -> {path}")
 
 
 # ── Calibration Curve ───────────────────────────────────────────────────────────
@@ -139,7 +139,7 @@ def plot_calibration(y_test: np.ndarray, y_prob: np.ndarray, model_name: str = "
     plt.tight_layout()
     plt.savefig(path, dpi=150, bbox_inches="tight", facecolor=fig.get_facecolor())
     plt.close()
-    print(f"  Saved calibration plot → {path}")
+    print(f"  Saved calibration plot -> {path}")
 
 
 # ── Markdown Report ─────────────────────────────────────────────────────────────
@@ -174,7 +174,7 @@ def write_markdown_report(results: dict[str, dict], threshold: float):
 
     report_path = MODELS_DIR / "evaluation_report.md"
     report_path.write_text("\n".join(lines), encoding="utf-8")
-    print(f"  Saved report → {report_path}")
+    print(f"  Saved report -> {report_path}")
     return "\n".join(lines)
 
 
@@ -220,7 +220,7 @@ def main():
     for line in report.split("\n")[3:9]:
         print(line)
 
-    print("\n✓ Evaluation complete")
+    print("\n[OK] Evaluation complete")
 
 
 if __name__ == "__main__":

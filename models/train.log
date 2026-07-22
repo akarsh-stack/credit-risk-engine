@@ -1,0 +1,28 @@
+============================================================
+CREDIT RISK MODEL TRAINING
+============================================================
+Loaded 80,000 rows, 17 columns
+  Train: 48,000 | Val: 16,000 | Test: 16,000
+  Default rate — train: 19.4%, val: 19.4%, test: 19.4%
+
+[1/3] Training Logistic Regression...
+  Val ROC-AUC: 0.8480
+  Saved -> C:\Users\e\.gemini\antigravity\scratch\credit-risk-engine\models\lr_model.joblib
+
+[2/3] Training Random Forest...
+  Val ROC-AUC: 0.8464
+  Saved -> C:\Users\e\.gemini\antigravity\scratch\credit-risk-engine\models\rf_model.joblib
+
+[3/3] Training XGBoost with Optuna (20 trials)...
+  0%|          | 0/20 [00:00<?, ?it/s]Best trial: 0. Best value: 0.832531:   0%|          | 0/20 [00:04<?, ?it/s]Best trial: 0. Best value: 0.832531:   5%|▌         | 1/20 [00:04<01:24,  4.46s/it]Best trial: 1. Best value: 0.839299:   5%|▌         | 1/20 [00:08<01:24,  4.46s/it]Best trial: 1. Best value: 0.839299:  10%|█         | 2/20 [00:08<01:19,  4.40s/it]Best trial: 2. Best value: 0.844101:  10%|█         | 2/20 [00:12<01:19,  4.40s/it]Best trial: 2. Best value: 0.844101:  15%|█▌        | 3/20 [00:12<01:09,  4.06s/it]Best trial: 3. Best value: 0.846551:  15%|█▌        | 3/20 [00:18<01:09,  4.06s/it]Best trial: 3. Best value: 0.846551:  20%|██        | 4/20 [00:18<01:19,  4.94s/it]Best trial: 3. Best value: 0.846551:  20%|██        | 4/20 [00:22<01:19,  4.94s/it]Best trial: 3. Best value: 0.846551:  25%|██▌       | 5/20 [00:22<01:09,  4.64s/it]Best trial: 3. Best value: 0.846551:  25%|██▌       | 5/20 [00:29<01:09,  4.64s/it]Best trial: 3. Best value: 0.846551:  30%|███       | 6/20 [00:29<01:12,  5.18s/it]Best trial: 3. Best value: 0.846551:  30%|███       | 6/20 [00:37<01:12,  5.18s/it]Best trial: 3. Best value: 0.846551:  35%|███▌      | 7/20 [00:37<01:19,  6.11s/it]Best trial: 3. Best value: 0.846551:  35%|███▌      | 7/20 [00:41<01:19,  6.11s/it]Best trial: 3. Best value: 0.846551:  40%|████      | 8/20 [00:41<01:07,  5.60s/it]Best trial: 3. Best value: 0.846551:  40%|████      | 8/20 [00:44<01:07,  5.60s/it]Best trial: 3. Best value: 0.846551:  45%|████▌     | 9/20 [00:44<00:52,  4.76s/it]Best trial: 9. Best value: 0.846834:  45%|████▌     | 9/20 [00:50<00:52,  4.76s/it]Best trial: 9. Best value: 0.846834:  50%|█████     | 10/20 [00:50<00:51,  5.20s/it]Best trial: 9. Best value: 0.846834:  50%|█████     | 10/20 [00:59<00:51,  5.20s/it]Best trial: 9. Best value: 0.846834:  55%|█████▌    | 11/20 [00:59<00:57,  6.35s/it]Best trial: 9. Best value: 0.846834:  55%|█████▌    | 11/20 [01:10<00:57,  6.35s/it]Best trial: 9. Best value: 0.846834:  60%|██████    | 12/20 [01:10<01:01,  7.67s/it]Best trial: 9. Best value: 0.846834:  60%|██████    | 12/20 [01:18<01:01,  7.67s/it]Best trial: 9. Best value: 0.846834:  65%|██████▌   | 13/20 [01:18<00:55,  7.87s/it]Best trial: 9. Best value: 0.846834:  65%|██████▌   | 13/20 [01:23<00:55,  7.87s/it]Best trial: 9. Best value: 0.846834:  70%|███████   | 14/20 [01:23<00:40,  6.83s/it]Best trial: 9. Best value: 0.846834:  70%|███████   | 14/20 [01:31<00:40,  6.83s/it]Best trial: 9. Best value: 0.846834:  75%|███████▌  | 15/20 [01:31<00:35,  7.17s/it]Best trial: 9. Best value: 0.846834:  75%|███████▌  | 15/20 [01:41<00:35,  7.17s/it]Best trial: 9. Best value: 0.846834:  80%|████████  | 16/20 [01:41<00:32,  8.23s/it]Best trial: 9. Best value: 0.846834:  80%|████████  | 16/20 [01:54<00:32,  8.23s/it]Best trial: 9. Best value: 0.846834:  85%|████████▌ | 17/20 [01:54<00:28,  9.56s/it]Best trial: 9. Best value: 0.846834:  85%|████████▌ | 17/20 [02:02<00:28,  9.56s/it]Best trial: 9. Best value: 0.846834:  90%|█████████ | 18/20 [02:02<00:18,  9.15s/it]Best trial: 18. Best value: 0.846977:  90%|█████████ | 18/20 [02:09<00:18,  9.15s/it]Best trial: 18. Best value: 0.846977:  95%|█████████▌| 19/20 [02:09<00:08,  8.34s/it]Best trial: 18. Best value: 0.846977:  95%|█████████▌| 19/20 [02:25<00:08,  8.34s/it]Best trial: 18. Best value: 0.846977: 100%|██████████| 20/20 [02:25<00:00, 10.83s/it]Best trial: 18. Best value: 0.846977: 100%|██████████| 20/20 [02:25<00:00,  7.29s/it]
+
+  Best params: {'n_estimators': 510, 'max_depth': 3, 'learning_rate': 0.01564173748678554, 'subsample': 0.6013881580417542, 'colsample_bytree': 0.8020792747505996, 'min_child_weight': 18, 'reg_alpha': 0.04943359123899913, 'reg_lambda': 0.02012683662461886, 'scale_pos_weight': 2.3689167754034743}
+  Best Val AUC: 0.8470
+  Final Val ROC-AUC (train-only preprocessor): 0.8470
+  Saved pipeline -> C:\Users\e\.gemini\antigravity\scratch\credit-risk-engine\models\xgb_pipeline.joblib
+  Saved classifier -> C:\Users\e\.gemini\antigravity\scratch\credit-risk-engine\models\xgb_model.joblib
+
+============================================================
+[OK] All models trained and saved to models/
+  Run src/evaluate.py for full metrics report
+============================================================

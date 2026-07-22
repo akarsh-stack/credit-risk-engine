@@ -19,7 +19,7 @@ Risk Metrics:
 
 Simplification note:
   Default correlations between loans are IGNORED (independent defaults assumed).
-  This underestimates tail risk. See README → Future Work for the copula extension.
+  This underestimates tail risk. See README -> Future Work for the copula extension.
 
 Outputs:
   - models/plots/var_distribution.png  — loss histogram with VaR/ES lines
@@ -100,7 +100,7 @@ def run_var_simulation(
     max_loss = float(portfolio_losses.max())
     std_loss = float(portfolio_losses.std())
 
-    print(f"\n  ── Risk Metrics ──")
+    print(f"\n  -- Risk Metrics --")
     print(f"  Mean Loss (EL):  ${mean_loss:>12,.0f}")
     print(f"  Std Dev:         ${std_loss:>12,.0f}")
     print(f"  VaR 95%:         ${var_95:>12,.0f}")
@@ -152,7 +152,7 @@ def run_var_simulation(
     path = PLOTS_DIR / "var_distribution.png"
     plt.savefig(path, dpi=150, bbox_inches="tight", facecolor=fig.get_facecolor())
     plt.close()
-    print(f"\n  Saved VaR plot → {path}")
+    print(f"\n  Saved VaR plot -> {path}")
 
     # ── Save numeric results ────────────────────────────────────────────────────
     results = {
@@ -179,7 +179,7 @@ def run_var_simulation(
     results_path = MODELS_DIR / "var_results.json"
     with open(results_path, "w") as f:
         json.dump(results, f, indent=2)
-    print(f"  Saved results → {results_path}")
+    print(f"  Saved results -> {results_path}")
 
     return results
 
@@ -189,7 +189,7 @@ def main():
     print("PORTFOLIO VAR SIMULATION")
     print("=" * 60)
     run_var_simulation()
-    print("\n✓ VaR simulation complete")
+    print("\n[OK] VaR simulation complete")
 
 
 if __name__ == "__main__":

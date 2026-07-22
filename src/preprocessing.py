@@ -1,7 +1,7 @@
 """
 src/preprocessing.py
 ====================
-Preprocessing pipeline: imputation → one-hot encoding → scaling.
+Preprocessing pipeline: imputation -> one-hot encoding -> scaling.
 Produces stratified 60/20/20 train/val/test splits and saves the
 fitted pipeline to models/preprocessor.joblib.
 
@@ -91,7 +91,7 @@ def load_and_split(data_path: Path = DATA_PATH):
     X_train, X_temp, y_train, y_temp = train_test_split(
         X, y, test_size=0.40, random_state=42, stratify=y
     )
-    # 50% of temp → val (20% overall), 50% → test (20% overall)
+    # 50% of temp -> val (20% overall), 50% -> test (20% overall)
     X_val, X_test, y_val, y_test = train_test_split(
         X_temp, y_temp, test_size=0.50, random_state=42, stratify=y_temp
     )
@@ -128,13 +128,13 @@ def run_preprocessing():
         df_proc[TARGET] = y.values
         out_path = PROCESSED_DIR / f"{split_name}.csv"
         df_proc.to_csv(out_path, index=False)
-        print(f"  Saved {split_name} split → {out_path}")
+        print(f"  Saved {split_name} split -> {out_path}")
 
     # Save fitted preprocessor
     MODELS_DIR.mkdir(parents=True, exist_ok=True)
     preprocessor_path = MODELS_DIR / "preprocessor.joblib"
     joblib.dump(preprocessor, preprocessor_path)
-    print(f"\n✓ Preprocessor saved → {preprocessor_path}")
+    print(f"\n[OK] Preprocessor saved -> {preprocessor_path}")
 
     # Also save feature names for reference
     feature_names_path = MODELS_DIR / "feature_names.joblib"
