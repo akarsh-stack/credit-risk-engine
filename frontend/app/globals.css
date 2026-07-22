@@ -1,39 +1,120 @@
 @import "tailwindcss";
 
 @theme {
-  --color-navy-900: #0f172a;
-  --color-navy-800: #1e293b;
-  --color-navy-700: #334155;
-  --color-navy-600: #475569;
+  --color-primary: #ffd597;
+  --color-secondary: #47f5db;
+  --color-tertiary: #ffd0cd;
+  --color-background: #0A0A0B;
+  --color-surface: #131312;
+  --color-surface-container: #1c1c1a;
+  --color-surface-container-low: #1c1c1a;
+  --color-surface-container-highest: #353533;
+  --color-surface-container-lowest: #050505;
+  --color-on-surface: #e5e2de;
+  --color-on-surface-variant: #d7c4ac;
+  --color-outline: #6B6B63;
+  --color-outline-variant: #1F1F1D;
+  --color-primary-container: #ffb000;
+  --color-on-primary-fixed: #000000;
+
+  --font-display-lg: "JetBrains Mono", monospace;
+  --font-mono-data: "JetBrains Mono", monospace;
+  --font-headline-md: "JetBrains Mono", monospace;
+  --font-body-lg: "JetBrains Mono", monospace;
+  --font-body-sm: "JetBrains Mono", monospace;
+  --font-label-caps: "JetBrains Mono", monospace;
+  --font-headline-sm: "JetBrains Mono", monospace;
+}
+
+@layer utilities {
+  .font-display-lg {
+    font-size: 32px;
+    line-height: 40px;
+    letter-spacing: -0.02em;
+    font-weight: 700;
+  }
+  .font-mono-data {
+    font-size: 13px;
+    line-height: 16px;
+    font-weight: 500;
+  }
+  .font-label-caps {
+    font-size: 10px;
+    line-height: 14px;
+    letter-spacing: 0.08em;
+    font-weight: 700;
+  }
+  .font-headline-sm {
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+  }
   
-  --color-risk-green: #22c55e;
-  --color-risk-amber: #f59e0b;
-  --color-risk-red: #ef4444;
+  .p-container-margin {
+    padding: 1rem;
+  }
+  .px-container-margin {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  .py-stack-compact {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+  .py-stack-default {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+  .mt-stack-compact {
+    margin-top: 0.5rem;
+  }
+  .p-gutter {
+    padding: 1rem;
+  }
+  .gap-gutter {
+    gap: 1rem;
+  }
 }
 
 :root {
-  --background: #0f172a;
-  --foreground: #f8fafc;
+  --background: #0A0A0B;
+  --foreground: #e5e2de;
 }
 
 body {
   background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'JetBrains Mono', monospace;
+  overflow: hidden;
 }
 
-/* Custom scrollbar for dark theme */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+@keyframes ticker {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
 }
-::-webkit-scrollbar-track {
-  background: #0f172a; 
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
 }
-::-webkit-scrollbar-thumb {
-  background: #334155; 
-  border-radius: 4px;
+.ticker-content {
+  display: inline-block;
+  white-space: nowrap;
+  animation: ticker 30s linear infinite;
 }
-::-webkit-scrollbar-thumb:hover {
-  background: #475569; 
+.cursor-pulse {
+  animation: pulse 1s step-end infinite;
+}
+.hairline {
+  border: 1px solid #1F1F1D;
+}
+.scrollbar-terminal::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+.scrollbar-terminal::-webkit-scrollbar-track {
+  background: #1F1F1D;
+}
+.scrollbar-terminal::-webkit-scrollbar-thumb {
+  background: #6B6B63;
 }

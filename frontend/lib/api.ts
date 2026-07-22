@@ -75,3 +75,73 @@ export async function getPortfolioVaR(): Promise<PortfolioVaRResponse> {
   }
   return response.json();
 }
+
+export interface StressTestRequest {
+  unemployment_shock_pct: number;
+  interest_rate_bump_bps: number;
+  collateral_haircut_pct: number;
+}
+
+export interface StressTestResponse {
+  baseline_expected_loss: number;
+  stressed_expected_loss: number;
+  baseline_var_95: number;
+  stressed_var_95: number;
+  baseline_var_99: number;
+  stressed_var_99: number;
+  loss_increase_pct: number;
+  loss_distribution_baseline: number[];
+  loss_distribution_stressed: number[];
+}
+
+export interface EntityProfile {
+  entity_id: string;
+  name: string;
+  sector: string;
+  total_exposure: number;
+  pd_score: number;
+  risk_grade: string;
+  fico_score: number;
+  dti_ratio: number;
+  num_delinquencies: number;
+  open_lines: number;
+  status: string;
+  recent_events: string[];
+}
+
+export interface LogEntry {
+  timestamp: string;
+  level: string;
+  module: string;
+  message: string;
+}
+
+export async function runStressTest(params: StressTestRequest): Promise<StressTestResponse> {
+  const response = await fetch(`${API_BASE}/stress-test`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(params),
+  });
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({ detail: 'Unknown error' }));
+    throw new Error(error.detail || `HTTP ${response.status}`);
+  }
+  return response.json();
+}
+
+export async function getEntities(): Promise<EntityProfile[]> {
+  const response = await fetch(`${API_BASE}/entities`);
+  if (!response.ok) {
+    throw new Error(`HTTP ${response.status}`);
+  }
+  return response.json();
+}
+
+export async function getLogs(): Promise<LogEntry[]> {
+  const response = await fetch(`${API_BASE}/logs`);
+  if (!response.ok) {
+    throw new Error(`HTTP ${response.status}`);
+  }
+  return response.json();
+}
+

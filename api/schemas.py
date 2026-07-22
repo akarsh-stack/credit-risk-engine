@@ -96,3 +96,44 @@ class PortfolioVaRResponse(BaseModel):
     loss_distribution: list[float]  # sample of losses for histogram
     lgd: float
     n_scenarios: int
+
+
+class StressTestRequest(BaseModel):
+    unemployment_shock_pct: float = Field(2.5, ge=0, le=10, description="Unemployment rate increase (%)")
+    interest_rate_bump_bps: float = Field(150.0, ge=0, le=500, description="Interest rate increase (bps)")
+    collateral_haircut_pct: float = Field(15.0, ge=0, le=50, description="Collateral / Housing haircut (%)")
+
+
+class StressTestResponse(BaseModel):
+    baseline_expected_loss: float
+    stressed_expected_loss: float
+    baseline_var_95: float
+    stressed_var_95: float
+    baseline_var_99: float
+    stressed_var_99: float
+    loss_increase_pct: float
+    loss_distribution_baseline: list[float]
+    loss_distribution_stressed: list[float]
+
+
+class EntityProfile(BaseModel):
+    entity_id: str
+    name: str
+    sector: str
+    total_exposure: float
+    pd_score: float
+    risk_grade: str
+    fico_score: int
+    dti_ratio: float
+    num_delinquencies: int
+    open_lines: int
+    status: str
+    recent_events: list[str]
+
+
+class LogEntry(BaseModel):
+    timestamp: str
+    level: str  # INFO | WARN | ALERT | SYSTEM
+    module: str
+    message: str
+

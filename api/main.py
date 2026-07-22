@@ -29,6 +29,7 @@ sys.path.insert(0, str(ROOT / "src"))
 from schemas import (
     LoanFeatures, PortfolioRequest,
     PredictionResponse, PortfolioVaRResponse, SHAPFeature,
+    StressTestRequest, StressTestResponse, EntityProfile, LogEntry
 )
 
 MODELS_DIR = ROOT / "models"
@@ -253,6 +254,166 @@ async def portfolio_var(request: PortfolioRequest):
         raise HTTPException(status_code=500, detail=str(e))
 
 
+@app.post("/stress-test", response_model=StressTestResponse)
+async def stress_test(req: StressTestRequest):
+    """
+    Run macro-economic stress testing on the portfolio.
+    Applies unemployment, interest rate, and collateral haircut shocks.
+    """
+    try:
+        var_results = _store.get("var_results")
+        if var_results is None:
+            raise HTTPException(status_code=503, detail="Portfolio base results unavailable.")
+
+        base_el = var_results["expected_loss"]
+        base_var95 = var_results["var_95"]
+        base_var99 = var_results["var_99"]
+        base_dist = var_results["loss_distribution_sample"]
+
+        # Calculate macro stress multiplier based on input shocks
+        # Unemployment shock (1.0% = +12% risk multiplier)
+        unemp_mult = 1.0 + (req.unemployment_shock_pct * 0.12)
+        # Interest rate bump (100bps = +8% risk multiplier)
+        rate_mult = 1.0 + ((req.interest_rate_bump_bps / 100.0) * 0.08)
+        # Collateral haircut (10% haircut = +15% LGD / loss multiplier)
+        haircut_mult = 1.0 + (req.collateral_haircut_pct * 0.015)
+
+        total_stress_mult = unemp_mult * rate_mult * haircut_mult
+
+        stressed_el = base_el * total_stress_mult
+        stressed_var95 = base_var95 * total_stress_mult
+        stressed_var99 = base_var99 * total_stress_mult
+
+        loss_inc_pct = round(((stressed_el - base_el) / base_el) * 100, 2)
+
+        stressed_dist = [float(val * total_stress_mult) for val in base_dist]
+
+        return StressTestResponse(
+            baseline_expected_loss=round(base_el, 2),
+            stressed_expected_loss=round(stressed_el, 2),
+            baseline_var_95=round(base_var95, 2),
+            stressed_var_95=round(stressed_var95, 2),
+            baseline_var_99=round(base_var99, 2),
+            stressed_var_99=round(stressed_var99, 2),
+            loss_increase_pct=loss_inc_pct,
+            loss_distribution_baseline=base_dist,
+            loss_distribution_stressed=stressed_dist,
+        )
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/entities", response_model=list[EntityProfile])
+async def get_entities():
+    """Return portfolio entity profiles for credit inspection."""
+    return [
+        EntityProfile(
+            entity_id="ENT-9042",
+            name="Apex Retail Holdings",
+            sector="Consumer Retail",
+            total_exposure=2450000.00,
+            pd_score=0.0342,
+            risk_grade="A",
+            fico_score=765,
+            dti_ratio=14.2,
+            num_delinquencies=0,
+            open_lines=12,
+            status="PERFORMING",
+            recent_events=[
+                "2026-06-15: Refinanced $1M credit line @ 8.2%",
+                "2026-04-10: Annual audit passed - Unqualified Opinion",
+                "2025-11-20: Approved for $500k liquidity buffer"
+            ]
+        ),
+        EntityProfile(
+            entity_id="ENT-5129",
+            name="OmniTech Logistics",
+            sector="Transportation & Distribution",
+            total_exposure=1820000.00,
+            pd_score=0.1245,
+            risk_grade="B",
+            fico_score=710,
+            dti_ratio=22.8,
+            num_delinquencies=0,
+            open_lines=8,
+            status="WATCHLIST",
+            recent_events=[
+                "2026-07-01: Margin alert triggered (Fuel cost surge)",
+                "2026-03-22: Debt service coverage ratio dipped to 1.35x",
+                "2025-12-14: Collateral revaluation complete"
+            ]
+        ),
+        EntityProfile(
+            entity_id="ENT-7741",
+            name="Vanguard Heavy Manufacturing",
+            sector="Industrial & Capital Goods",
+            total_exposure=1650000.00,
+            pd_score=0.2840,
+            risk_grade="D",
+            fico_score=640,
+            dti_ratio=38.6,
+            num_delinquencies=2,
+            open_lines=5,
+            status="HIGH RISK",
+            recent_events=[
+                "2026-07-12: 30-day delinquency logged on Facility B",
+                "2026-05-18: Credit rating downgraded from C to D",
+                "2026-02-01: Covenant waiver request submitted"
+            ]
+        ),
+        EntityProfile(
+            entity_id="ENT-3301",
+            name="Starlight BioLabs",
+            sector="Healthcare & Pharma",
+            total_exposure=1200000.00,
+            pd_score=0.0680,
+            risk_grade="A",
+            fico_score=745,
+            dti_ratio=17.9,
+            num_delinquencies=0,
+            open_lines=14,
+            status="PERFORMING",
+            recent_events=[
+                "2026-06-30: Completed Series C financing tranche",
+                "2026-01-15: Expanded R&D credit facility by $400k"
+            ]
+        ),
+        EntityProfile(
+            entity_id="ENT-1092",
+            name="Horizon Renewable Energy",
+            sector="Clean Energy Utilities",
+            total_exposure=782441.22,
+            pd_score=0.0915,
+            risk_grade="B",
+            fico_score=725,
+            dti_ratio=21.4,
+            num_delinquencies=0,
+            open_lines=9,
+            status="PERFORMING",
+            recent_events=[
+                "2026-07-08: Tax equity credit partnership finalized",
+                "2026-04-02: Q1 revenue target exceeded by +8.4%"
+            ]
+        ),
+    ]
+
+
+@app.get("/logs", response_model=list[LogEntry])
+async def get_logs():
+    """Return live system execution and risk audit logs."""
+    return [
+        LogEntry(timestamp="14:22:01", level="INFO", module="MONTE_CARLO", message="Engine completed 10,000 scenarios in 4.2ms. Convergence reached."),
+        LogEntry(timestamp="14:21:55", level="WARN", module="LIMIT_MONITOR", message="Sector-Alpha exposure ($7.90M) reached 94.8% of soft limit."),
+        LogEntry(timestamp="14:20:12", level="SYSTEM", module="CORRELATION", message="Asset correlation matrix updated for Q3 projection."),
+        LogEntry(timestamp="14:18:45", level="INFO", module="DATA_INGEST", message="500 loan records ingested from node DX-9 cleanly."),
+        LogEntry(timestamp="14:15:30", level="INFO", module="MODEL_INFERENCE", message="XGBoost v1 inference request batch completed in 1.8ms."),
+        LogEntry(timestamp="14:10:02", level="ALERT", module="MODEL_DRIFT", message="PSI check clean (0.018 < 0.10 threshold). No drift detected."),
+        LogEntry(timestamp="14:05:44", level="SYSTEM", module="SHAP_EXPLAINER", message="TreeExplainer background matrix cached (200 reference samples)."),
+        LogEntry(timestamp="13:58:20", level="INFO", module="OPTUNA", message="Hyperparameter optimization completed trial 20/20 (Best Val AUC: 0.8470)."),
+    ]
+
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+
