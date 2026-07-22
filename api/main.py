@@ -23,7 +23,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
 # ── Path setup ─────────────────────────────────────────────────────────────────
-ROOT = Path(__file__).parent.parent.parent
+ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(ROOT / "src"))
 
 from api.schemas import (
@@ -416,6 +416,7 @@ async def get_logs():
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+
 
 
 
