@@ -26,7 +26,7 @@ from fastapi.middleware.cors import CORSMiddleware
 ROOT = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(ROOT / "src"))
 
-from schemas import (
+from api.schemas import (
     LoanFeatures, PortfolioRequest,
     PredictionResponse, PortfolioVaRResponse, SHAPFeature,
     StressTestRequest, StressTestResponse, EntityProfile, LogEntry
@@ -416,6 +416,7 @@ async def get_logs():
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+
 
 
 
